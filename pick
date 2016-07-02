@@ -1,0 +1,32 @@
+#!/usr/bin/bash
+
+# Collects all of the args, make sure to seperate with ','
+IN="$*"
+
+# Takes everything before a ',' and places them each on a single line of tmp file
+echo $IN | sed 's/,/\n/g' > /tmp/pick.a.random.word.or.phrase
+
+# Obvious vars are obvious
+WORDFILE="/tmp/pick.a.random.word.or.phrase"
+
+# Pick only one of the vars
+NUMWORDS=1
+
+## Picks a random line from tmp file
+
+#Number of lines in $WORDFILE
+tL=`awk 'NF!=0 {++c} END {print c}' $WORDFILE`
+
+# Expand random
+RANDOM_CMD='od -vAn -N4 -tu4 /dev/urandom'
+
+for i in `seq $NUMWORDS`
+do
+rnum=$((`${RANDOM_CMD}`%$tL+1))
+sed -n "$rnum p" $WORDFILE | tr '\n' ' '
+
+done
+
+printf "\n"
+
+rm /tmp/pick.a.random.word.or.phrase
