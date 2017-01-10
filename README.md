@@ -1,2 +1,2 @@
 # pick
-Pick's a word/phrase from args seperated by a comma
+Picks a word/phrase at random from args seperated by a comma
